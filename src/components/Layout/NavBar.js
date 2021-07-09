@@ -81,7 +81,7 @@ function NavBar({ navOpen, mobileView }) {
             >
               <ListItemIcon >
                 <Icon
-                  style={{ color: isSelected(item) && '#f44336' }} />
+                  style={{ color: isSelected(item) && '#EA1D2C' }} />
               </ListItemIcon>
 
               <ListItemText
@@ -106,7 +106,7 @@ function NavBar({ navOpen, mobileView }) {
               selected={isSelected(item)}
             >
               <ListItemIcon>
-                <Icon style={{ color: isSelected(item) && '#f44336' }} />
+                <Icon style={{ color: isSelected(item) && '#EA1D2C' }} />
               </ListItemIcon>
               <ListItemText
                 classes={{
