@@ -1,7 +1,10 @@
+import Layout from 'components/Layout'
 import React from 'react'
 
 export default function Home() {
     return (
-        <div>ok</div>
+        <Layout>
+            <div>Home</div>
+        </Layout>
     )
 }
