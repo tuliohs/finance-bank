@@ -1,16 +1,18 @@
 const OperationModel = require('../models/operacao.model')
 
-const generatePayClass = (type) => {
-    switch (type) {
-        case 'deposit': return 'saida';
-        case 'transfer': return 'saida';
-        case 'pay': return 'entrada';
+const businessPanding = (reqBody, userId) => {
+    switch (reqBody?.type) {
+        case 'deposit':
+            return { ...reqBody, class: 'saida', receiver: userId }
+        case 'transfer':
+            return { ...reqBody, class: 'saida', sender: userId }
+        case 'pay':
+            return { ...reqBody, class: 'entrada', sender: userId }
     }
 }
 exports.registro = async (req, res) => {
     const reqBody = req.body;
-    const classe = generatePayClass(reqBody?.type)
-    const newOperacao = { ...reqBody, class: classe, sender: req.userId }
+    let newOperacao = businessPanding(reqBody, req.userId)
     try {
         const resultado = await OperationModel.create(newOperacao)
         return res.status(200).send({ message: 'Operação realizada com sucesso', data: resultado })
@@ -22,7 +24,21 @@ exports.registro = async (req, res) => {
 }
 exports.getAllOperations = async (req, res) => {
     try {
-        const operations = await OperationModel.find()
+        let operations = await OperationModel
+            .find()
+            .populate("receiver")
+            .populate("sender")
+            .lean()
+
+        //---------adicionado o nome banco as operações sem destinatario um remetente
+        const banco = { name: "banco" }
+
+        for (var el of operations) {
+            if (!el?.receiver)
+                el.receiver = banco
+            if (!el?.sender)
+                el.sender = banco
+        }
         return res.status(200).send({ operations })
     }
     catch (err) {

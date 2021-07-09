@@ -19,7 +19,7 @@ const Styles = styled.div`
         color: #EA1D2C;
     }
     tr { 
-    font-size: 20px;
+    font-size: 16px;
     line-height: 1.2;
     font-weight: unset; 
 
@@ -69,9 +69,9 @@ function GlobalFilter({
                             display: 'flex',
                             alignItems: 'center',
                             height: 35,
-                            width: 700,
+                            //width: 700,
                             backgroundColor: '#EA1D2C',
-                            color: '#ffffff'
+                            color: '#ffffff',
                         }}
                     >
                         <InputBase
@@ -138,8 +138,8 @@ function SelectColumnFilter({
     // using the preFilteredRows
     const options = React.useMemo(() => {
         const options = new Set()
-        preFilteredRows.forEach(row => {
-            options.add(row.values[id])
+        preFilteredRows?.forEach(row => {
+            options.add(row?.values[id])
         })
         return [...options.values()]
     }, [id, preFilteredRows])
@@ -149,15 +149,17 @@ function SelectColumnFilter({
         <select
             value={filterValue}
             onChange={e => {
-                setFilter(e.target.value || undefined)
+                setFilter(e.target.value)
             }}
         >
-            <option value="">All</option>
-            {options.map((option, i) => (
-                <option key={i} value={option}>
-                    {option}
-                </option>
-            ))}
+            <option value="">Todos</option>
+            {options
+
+                .map((option, i) => (
+                    <option key={i} value={option}>
+                        {option}
+                    </option>
+                ))}
         </select>
     )
 }
@@ -226,13 +228,13 @@ function NumberRangeColumnFilter({
                     const val = e.target.value
                     setFilter((old = []) => [val ? parseInt(val, 10) : undefined, old[1]])
                 }}
-                placeholder={`Min (${min})`}
+                placeholder={`Min  ${min}`}
                 style={{
                     width: '70px',
                     marginRight: '0.5rem',
                 }}
             />
-            to
+            Até
             <input
                 value={filterValue[1] || ''}
                 type="number"
@@ -240,7 +242,7 @@ function NumberRangeColumnFilter({
                     const val = e.target.value
                     setFilter((old = []) => [old[0], val ? parseInt(val, 10) : undefined])
                 }}
-                placeholder={`Max (${max})`}
+                placeholder={`Max ${max}`}
                 style={{
                     width: '70px',
                     marginLeft: '0.5rem',
@@ -266,14 +268,15 @@ function Table({ columns, data }) {
             // Or, override the default text filter to use
             // "startWith"
             text: (rows, id, filterValue) => {
-                return rows.filter(row => {
-                    const rowValue = row.values[id]
-                    return rowValue !== undefined
-                        ? String(rowValue)
-                            .toLowerCase()
-                            .startsWith(String(filterValue).toLowerCase())
-                        : true
-                })
+                return rows
+                    .filter(row => {
+                        const rowValue = row.values[id]
+                        return rowValue !== undefined
+                            ? String(rowValue)
+                                .toLowerCase()
+                                .startsWith(String(filterValue).toLowerCase())
+                            : true
+                    })
             },
         }),
         []
@@ -316,17 +319,6 @@ function Table({ columns, data }) {
         <>
             <table {...getTableProps()}>
                 <thead>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>
-                                    {column.render('Header')}
-                                    {/* Render the columns filter UI */}
-                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
                     <tr>
                         <th
                             colSpan={visibleColumns.length}
@@ -341,6 +333,18 @@ function Table({ columns, data }) {
                             />
                         </th>
                     </tr>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps()}>
+                                    {column.render('Header')}
+                                    {/* Render the columns filter UI */}
+                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                </th>
+                            ))}
+                        </tr>
+                    ))}
+
                 </thead>
                 <tbody {...getTableBodyProps()}>
                     {firstPageRows.map((row, i) => {
@@ -364,7 +368,7 @@ function Table({ columns, data }) {
 // Define a custom filter filter function!
 function filterGreaterThan(rows, id, filterValue) {
     return rows.filter(row => {
-        const rowValue = row.values[id]
+        const rowValue = row?.values[id]
         return rowValue >= filterValue
     })
 }
@@ -398,6 +402,19 @@ function OpetationTable({ dados }) {
                 accessor: 'class',
                 Filter: SelectColumnFilter,
                 filter: 'includes',
+            },
+            {
+                Header: 'Destinatário',
+                accessor: 'receiver.name',
+                Filter: SelectColumnFilter,
+                filter: 'includes',
+            },
+            {
+                Header: 'Remetente',
+                accessor: 'sender.name',
+                Filter: SelectColumnFilter,
+                filter: 'includes',
+                Cell: ({ value }) => (value),
             },
             {
                 Header: 'Valor',
