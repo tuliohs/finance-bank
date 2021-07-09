@@ -25,12 +25,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleCard({ title, type, icon }) {
+export default function SimpleCard({ title, type, icon, onClick }) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} onClick={onClick}>
       <CardContent>
         <Typography className={classes.title} color="textSecondary" gutterBottom>
           {type}

@@ -63,7 +63,6 @@ function NavBar({ navOpen, mobileView }) {
   const history = useHistory();
   const isSelected = (item) => history.location.pathname === item.path;
   const changePage = (path) => {
-    console.log('change', path)
     history.push(path)
   }
   const content = (
