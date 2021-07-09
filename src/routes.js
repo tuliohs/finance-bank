@@ -10,6 +10,8 @@ import history from "utils/history";
 //import Explore from 'layouts/Explore'
 import SignIn from "pages/SingIn";
 import Home from "pages/Home";
+import CardVirtual from "pages/CardVirtual";
+import Bank from "pages/Bank";
 import RoutesPrivate from 'utils/Private/RoutesPrivate'
 
 const Routes = () => {
@@ -22,6 +24,8 @@ const Routes = () => {
                                 <Home/>
                             </RoutesPrivate> */}
                     <Route path={"/home"} component={Home} />
+                    <Route path={"/bank"} component={Bank} />
+                    <Route path={"/card"} component={CardVirtual} />
                     <Route path="/" component={SignIn} />
                     {/*<Route path={`${baseRouter}/*`}>
                                 <NotFound />

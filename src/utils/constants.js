@@ -3,4 +3,6 @@ export const THEMES = {
   DARK: 'DARK',
 };
 
+export const defaultTheme = THEMES.LIGHT
+
 export default THEMES;

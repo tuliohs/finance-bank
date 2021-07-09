@@ -2,11 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 import Routes from 'routes';
 import { StoreProvider } from 'contexts/StoreContext'
+import SThemeProvider from 'contexts/SThemeProvider'
 
 function App() {
   return (
     <StoreProvider>
-      <Routes />
+      <SThemeProvider>
+        <Routes />
+      </SThemeProvider>
     </StoreProvider>
   );
 }

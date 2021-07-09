@@ -76,7 +76,7 @@ function TopBar() {
 
         <Box display="flex">
           <IconButton className={classes.icons}>
-            {settings.theme === THEMES.DARK ? (
+            {settings?.theme === THEMES.DARK ? (
               <Brightness7Icon
                 onClick={() => saveSettings({ theme: THEMES.LIGHT })}
               />
