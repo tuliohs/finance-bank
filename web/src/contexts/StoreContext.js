@@ -12,7 +12,10 @@ const StoreContext = createContext({
   saveSettings: () => { },
   user: {},
   setUser: () => { },
+  message: {},
+  setMessage: () => { },
   token: "",
+  setToken: () => { },
   currentSettings: { theme: THEMES.LIGHT }
 })
 export default StoreContext;
@@ -21,6 +24,9 @@ export const StoreProvider = ({ children }) => {
   //-------------User Config----------------------
   const [token, setToken, removeToken] = useStorage('token')
   const [user, setUser] = useState({})
+
+
+  const [message, setMessage] = useState({});
 
   //-------------Theme----------------------------
   const [currentSettings, setCurrentSettings, restoreSettings] = useStorage('theme')
@@ -46,6 +52,7 @@ export const StoreProvider = ({ children }) => {
         setUser,
         settings: currentSettings,
         saveSettings: handleSaveSettings,
+        message, setMessage
       }}
     >
       {children  /*is the component received*/}
