@@ -17,5 +17,7 @@ export const URL = {
   LOGIN: `${baseUrl}/v1/auth/authenticate`,
   USER: `${baseUrl}/v1/auth/user`,
 
+  OPERATION: `${baseUrl}/v1/operation`,
+
 }
 

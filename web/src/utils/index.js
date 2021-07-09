@@ -1,8 +1,30 @@
 
+export const { format: formatBR } = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+});
+
+export const formatPrice = (value) => {
+    const newV = value?.toString()?.replace(',', '.')
+    return formatBR(newV)
+}
+
+function formataValue(target) {
+    var valor = target?.value;
+    if (target.name === 'valor') {
+        console.log('fdf')
+        var v = target.value.replace(/\D/g, '');
+        v = (v / 100).toFixed(2) + '';
+        v = v.replace(".", ",");
+        v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+        v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+        return formatPrice(v);
+    }
+    return valor
+}
 export function onChangeObject(event, set, state) {
     const { name, id, checked } = event.target;
 
-    //const value = formataValue(event.target)
     const value = event.target.value
 
     //Verifica o tipo de CAMPO

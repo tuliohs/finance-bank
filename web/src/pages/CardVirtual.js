@@ -6,7 +6,7 @@ import React from 'react'
 export default function CardVirtual() {
     return (
         <Layout>
-            <Typography variant="h5" component="h2">
+            <Typography variant="h5" component="h2" color="textSecondary">
                 Esse é o seu cartão virtual
             </Typography>
             <PaymentForm />

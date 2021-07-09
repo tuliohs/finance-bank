@@ -39,7 +39,7 @@ export default function SimpleCard({ title, type, icon, onClick }) {
           <Grid alignItems="center">
             {icon}
           </Grid>
-          <Typography variant="h5" component="h2">
+          <Typography variant="h5" component="h2" color="textSecondary">
             {title}
           </Typography>
         </Grid>

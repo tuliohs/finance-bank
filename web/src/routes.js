@@ -20,12 +20,18 @@ const Routes = () => {
             <Router history={history}
             >
                 <Switch>
-                    {/*<RoutesPrivate path={`/home`}  >
-                                <Home/>
-                            </RoutesPrivate> */}
-                    <Route path={"/home"} component={Home} />
+                    <RoutesPrivate path={`/home`}  >
+                        <Home />
+                    </RoutesPrivate>
+                    <RoutesPrivate path={`/card`}  >
+                        <CardVirtual />
+                    </RoutesPrivate>
+                    <RoutesPrivate path={`/bank`}  >
+                        <Bank />
+                    </RoutesPrivate>
+                    {/*<Route path={"/home"} component={Home} />
                     <Route path={"/bank"} component={Bank} />
-                    <Route path={"/card"} component={CardVirtual} />
+                    <Route path={"/card"} component={CardVirtual} />*/}
                     <Route path="/" component={SignIn} />
                     {/*<Route path={`${baseRouter}/*`}>
                                 <NotFound />

@@ -71,8 +71,8 @@ exports.autenticar = async (req, res) => {
 }
 exports.getUser = async (req, res) => {
     try {
-        const user = await User.findOne({ email: email }).lean()
-        return res.send({ user })
+        const users = await User.find()//({ email: email }).lean()
+        return res.send({ users })
     }
     catch (err) {
         res.status(400).json({ message: err.message })

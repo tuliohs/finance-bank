@@ -27,5 +27,7 @@ app.use(express.json())
 
 
 app.use('/api/v1/auth', require('./app/routes/auth.routes'))
+app.use('/api/v1/operation', require('./app/routes/operation.routes'))
+
 
 app.listen(9098, () => console.log('Server started.'))
