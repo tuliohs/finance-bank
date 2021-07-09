@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TopBar() {
+function TopBar({ handleNavOpen, mobileView }) {
   const classes = useStyles();
   const { token, user } = useContext(StoreContext)
   const { settings, saveSettings } = useSettings();
@@ -64,7 +64,11 @@ function TopBar() {
     <AppBar className={classes.root} color="default">
       <Toolbar className={classes.toolbar}>
         <Box display="flex" alignItems="center">
-          <MenuIcon />
+          {/*{!mobileView ? null :*/}
+          <IconButton onClick={handleNavOpen}>
+            <MenuIcon />
+          </IconButton>
+          {/*//}*/}
           <img
             src={
               '/logo_size_invert.jpg'

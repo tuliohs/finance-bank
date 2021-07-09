@@ -9,17 +9,16 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-
+  IconButton
 } from '@material-ui/core';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import AttachMoneyIcon from '@material-ui/icons/MonetizationOn';
 import CreditCard from '@material-ui/icons/CreditCard';
 
 import HomeIcon from '@material-ui/icons/Home';
-
-
-import history from 'utils/history'
+//import history from 'utils/history'
 
 import StoreContext from 'contexts/StoreContext';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   mobileDrawer: {
@@ -47,14 +46,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const primaryMenu = [
-  { id: 1, label: 'Início', path: '/', icon: HomeIcon },
-  { id: 2, label: 'SenseBank', path: '/money', icon: AttachMoneyIcon },
-  {
-    id: 3,
-    label: 'SenseCard',
-    path: 'sense-card',
-    icon: CreditCard,
-  },
+  { id: 1, label: 'Início', path: '/home', icon: HomeIcon },
+  { id: 2, label: 'SenseBank', path: '/bank', icon: AttachMoneyIcon },
+  { id: 3, label: 'SenseCard', path: '/card', icon: CreditCard },
 ];
 
 const secondaryManu = [
@@ -62,13 +56,16 @@ const secondaryManu = [
 
 ];
 
-function NavBar() {
+function NavBar({ navOpen, mobileView }) {
   const classes = useStyles();
 
   const { token } = useContext(StoreContext)
-
+  const history = useHistory();
   const isSelected = (item) => history.location.pathname === item.path;
-
+  const changePage = (path) => {
+    console.log('change', path)
+    history.push(path)
+  }
   const content = (
     <Box height="100%" display="flex" flexDirection="column">
       <List>
@@ -80,10 +77,13 @@ function NavBar() {
               button
               classes={{ root: classes.listItem }}
               selected={isSelected(item)}
+              onClick={() => changePage(item.path)}
             >
-              <ListItemIcon>
-                <Icon style={{ color: isSelected(item) && '#f44336' }} />
+              <ListItemIcon >
+                <Icon
+                  style={{ color: isSelected(item) && '#f44336' }} />
               </ListItemIcon>
+
               <ListItemText
                 classes={{
                   primary: classes.listItemText,
@@ -140,17 +140,35 @@ function NavBar() {
   );
 
   return (
-    <Hidden mdDown>
-      <Drawer
-        anchor="left"
-        classes={{ paper: classes.desktopDrawer }}
-        open
-        variant="persistent"
-      >
-        {content}
-      </Drawer>
-    </Hidden>
+    <>{
+      mobileView ?
+        (<  >
+          <Drawer
+            anchor="left"
+            classes={{ paper: classes.desktopDrawer }}
+            open={navOpen}
+            variant="persistent"
+          >
+            {content}
+          </Drawer>
+        </ >) : (<Hidden mdDown >
+          <Drawer
+            anchor="left"
+            classes={{ paper: classes.desktopDrawer }}
+            open={navOpen}
+            variant="persistent"
+          >
+            {content}
+          </Drawer>
+        </Hidden>)
+
+    }
+    </>
   );
+
+
+
+
 }
 
 export default NavBar;
