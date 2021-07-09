@@ -47,11 +47,14 @@ const createLote = async (Collection, event, array, primaryKeys = [], duplicate 
     }
 }
 
+const basePath = {
+    json: './data-init/json/',
+}
 exports.init = async () => {
 
     //------------Modelo para criação de lote
-    //let rawRout = fs.readFileSync(basePath.json + 'routes.json')
-    //await createLote(RouteModel, 'Routes ', JSON.parse(rawRout), ["url"], "replace")
+    let rawUsers = fs.readFileSync(basePath.json + 'user.json')
+    await createLote(UserModel, 'User', JSON.parse(rawUsers), ["email"], "replace")
 
     //---------Criando um usuario chamado sense--------------
     //-------------------------------------------------------

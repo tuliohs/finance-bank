@@ -1,0 +1,26 @@
+[
+    {
+        "order": 1,
+        "name": "sense1",
+        "email": "sense1",
+        "password": "sense1"
+    },
+    {
+        "order": 2,
+        "name": "sense2",
+        "email": "sense2",
+        "password": "sense2"
+    },
+    {
+        "order": 3,
+        "name": "sense3",
+        "email": "sense3",
+        "password": "sense3"
+    },
+    {
+        "order": 4,
+        "name": "sense4",
+        "email": "sense4",
+        "password": "sense4"
+    }
+]
