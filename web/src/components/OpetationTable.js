@@ -1,22 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
 // A great library for fuzzy filtering/sorting items
 import { matchSorter } from 'match-sorter'
 import moment from 'moment'
 import { formatPrice } from 'utils'
-import { Box, Button, Grid, Hidden, IconButton, InputBase, Paper } from '@material-ui/core'
+import { Box, Button, Grid, Hidden, IconButton, InputBase, makeStyles, Paper } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
+import StoreContext from 'contexts/StoreContext'
+import Img from 'components/Img'
 
 //import makeData from './makeData'
 
 const Styles = styled.div`
-  padding: 1rem;
-
+  padding: 1rem;  
+  input[placeholder], [placeholder], *[placeholder] {
+    color: red !important;
+} 
   table {
     border-spacing: 0;
-    thead{ 
-        color: #EA1D2C;
+    thead{  
     }
     tr { 
     font-size: 16px;
@@ -47,12 +50,21 @@ const Styles = styled.div`
   }
 `
 
+const useStyles = makeStyles((theme) => ({
+    inputPlace: {
+        '&::placeholder': {
+            fontStyle: 'italic',
+            color: 'white'
+        },
+    },
+}))
 // Define a default UI for filtering
 function GlobalFilter({
     preGlobalFilteredRows,
     globalFilter,
     setGlobalFilter,
 }) {
+    const classes = useStyles()
     const count = preGlobalFilteredRows.length
     const [value, setValue] = React.useState(globalFilter)
     const onChange = useAsyncDebounce(value => {
@@ -82,13 +94,19 @@ function GlobalFilter({
                             style={{
                                 fontSize: '1.1rem',
                                 border: '0',
-                                color: '#ffffff',
+
                                 flex: 1,
                             }}
+                            type="text"
                             value={value || ""}
                             // className={classes.input}
                             placeholder="Pesquisa Geral"
-                            inputProps={{ 'aria-label': 'search google maps' }}
+                            id="input-geral"
+                            inputProps={{
+                                //'aria-label': 'search google maps',
+                                style: { color: '#ffffff' },
+                                classes: { input: classes.input }
+                            }}
                         />
                         <SearchIcon />
                     </Paper>
@@ -338,8 +356,11 @@ function Table({ columns, data }) {
                             {headerGroup.headers.map(column => (
                                 <th {...column.getHeaderProps()}>
                                     {column.render('Header')}
+                                    {console.log(column)}
                                     {/* Render the columns filter UI */}
-                                    <div>{column.canFilter ? column.render('Filter') : null}</div>
+                                    <div>{column.canFilter &&
+                                        ["Opções", "Data"].indexOf(column.Header) === -1
+                                        ? column.render('Filter') : null}</div>
                                 </th>
                             ))}
                         </tr>
@@ -380,7 +401,7 @@ function filterGreaterThan(rows, id, filterValue) {
 filterGreaterThan.autoRemove = val => typeof val !== 'number'
 
 function OpetationTable({ dados }) {
-
+    const { user } = useContext(StoreContext)
     const editRow = () => { }
 
     const columns = React.useMemo(
@@ -389,17 +410,32 @@ function OpetationTable({ dados }) {
                 Header: 'Data',
                 accessor: 'createdAt',
                 Cell: ({ value }) => (moment(value).locale('pt').format('DD/MM/yyyy'))
-
             },
             {
-                Header: 'Tipo',
-                accessor: 'type',
+                Header: 'Transação',
+                accessor: 'transation',
                 Filter: SelectColumnFilter,
                 filter: 'includes',
             },
             {
-                Header: 'Classe',
-                accessor: 'class',
+                Header: 'Tipo',
+                accessor: 'tipo',
+                Filter: SelectColumnFilter,
+                filter: 'includes',
+                Cell: ({ row, value }) => (
+                    <Grid justifyContent="center" style={{ display: 'flex' }}>{
+                        row.original.sender._id !== user?._id ?
+                            <img src="https://img.icons8.com/material-sharp/24/000000/resize-horizontal.png" />
+                            : value === "saida" ?
+                                <img src="https://img.icons8.com/ios-filled/24/fa314a/sort-down.png" />
+                                :
+                                <img src="https://img.icons8.com/ios-filled/24/26e07f/sort-up.png" />
+                    }</Grid>
+                )
+            },
+            {
+                Header: 'Categoria',
+                accessor: 'category',
                 Filter: SelectColumnFilter,
                 filter: 'includes',
             },
@@ -408,6 +444,12 @@ function OpetationTable({ dados }) {
                 accessor: 'receiver.name',
                 Filter: SelectColumnFilter,
                 filter: 'includes',
+                Cell: ({ row, value }) => (
+                    <Grid justifyContent="center" style={{ display: 'flex' }}>
+                        <Img src={row.original.sender?.photo} isAvatar={true}
+                            alt={value} isExternal={true} />
+                    </Grid>
+                )
             },
             {
                 Header: 'Remetente',
@@ -415,6 +457,12 @@ function OpetationTable({ dados }) {
                 Filter: SelectColumnFilter,
                 filter: 'includes',
                 Cell: ({ value }) => (value),
+                Cell: ({ row, value }) => (
+                    <Grid justifyContent="center" style={{ display: 'flex' }}>
+                        <Img src={row.original.sender?.photo} isAvatar={true}
+                            alt={value} isExternal={true} />
+                    </Grid>
+                )
             },
             {
                 Header: 'Valor',
@@ -426,26 +474,30 @@ function OpetationTable({ dados }) {
             {
                 Header: 'Opções',
                 id: 'edit',
-                canFilter: false,
+                disableFilter: false,
                 accessor: '_id',
-                Cell: ({ value }) => (
-                    <Grid>
-                        <Button
-                            variant="outlined"
-                            color="secondary"
-                            onClick={editRow({ value })}>Editar</Button>
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={editRow({ value })}>Reverter</Button>
-                    </Grid>
+                Cell: ({ row, value }) => (
+                    row.original.sender._id !== user?._id ?
+                        null ://somente são alteradas transações do mesmo usuário
+                        <Grid>
+                            <Button
+                                variant="outlined"
+                                color="secondary"
+                                onClick={editRow({ value })}>Editar</Button>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={editRow({ value })}>Reverter</Button>
+                        </Grid>
                 )
             },
         ],
         []
     )
 
-    const data = dados;// React.useMemo(() => makeData(100000), [])
+    const data = dados
+
+    // React.useMemo(() => makeData(100000), [])
 
     return (
         <Styles>

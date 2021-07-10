@@ -14,6 +14,7 @@ const UserSchema = mongoose.Schema(
         }, //'facebook' |'' |
         profileImage: { type: mongoose.Types.ObjectId, ref: 'Media' },
         lastAcess: { type: Date, default: Date.now },
+        photo: { type: String, require: false },
         //update user example
         //db.User.updateOne({_id: ObjectId("5fef940f7fb00934aae69d0a")},{$set: { authType: "default",active: true,firstName: "123",email: "123",password: "$2a$10$WthcOeIMUB.yTK6i4r5iS.mohsGQzblIRUf.k5D.vKGvnZ7QKaVIy", role: "admin"}})
         //Search user email db.User.find({},{email :1})

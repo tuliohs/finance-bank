@@ -16,6 +16,7 @@ const StoreContext = createContext({
   setMessage: () => { },
   token: "",
   setToken: () => { },
+  removeToken: () => { },
   currentSettings: { theme: THEMES.LIGHT }
 })
 export default StoreContext;

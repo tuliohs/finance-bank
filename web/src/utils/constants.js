@@ -9,6 +9,8 @@ export default THEMES;
 
 //--------------Url--------------------
 let baseUrl = "http://localhost:9098/api"
+//let baseUrl = "http://45.90.108.173:9098/api"
+
 
 export const URL = {
   BASE: baseUrl,

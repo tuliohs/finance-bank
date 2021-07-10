@@ -25,7 +25,7 @@ export default function OperationDialog({ setOpen, open, type }) {
   const [users, setUsers] = useState([])
   const [categories, setCategories] = useState([])
 
-  const { token, setToken, setUser, setMessage } = useContext(StoreContext)
+  const { user, setMessage } = useContext(StoreContext)
   const onChange = (e) => onChangeObject(e, setDados, dados)
 
   const handleClose = () => {
@@ -43,7 +43,7 @@ export default function OperationDialog({ setOpen, open, type }) {
     else if (type === 'pay' && !dados?.category)
       return setMessage({ type: "error", visible: true, text: 'A categoria é obrigatória para pagamentos' })
 
-    const body = { ...dados, type: type }
+    const body = { ...dados, type: type, category: dados?.category }
     await newOperation(body)
       .then(c => {
         handleClose()
@@ -79,15 +79,14 @@ export default function OperationDialog({ setOpen, open, type }) {
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{formDados?.title}</DialogTitle>
         <DialogContent>
-          {JSON.stringify(dados)}
           <TextField
             autoFocus
             margin="dense"
             id="valor"
             label="Valor"
             name="valor"
-            type="number" min="0.00" max="10000.00" step="0.01"
             fullWidth
+            value={dados?.valor}
             onChange={onChange}
           />
           {!users || type !== 'transfer' ? null : <Grid style={{
@@ -111,7 +110,9 @@ export default function OperationDialog({ setOpen, open, type }) {
               }}
             >
               <option aria-label="None" value="" >Selecione</option>
-              {users?.map(c => (<option value={c._id}>{c.name}</option>))}
+              {users
+                ?.filter(f => f._id !== user._id)
+                ?.map(c => (<option value={c._id}>{c.name}</option>))}
             </Select ></Grid>}
 
           {!categories || type !== 'pay' ? null : <Grid style={{
@@ -134,7 +135,7 @@ export default function OperationDialog({ setOpen, open, type }) {
                 id: 'category',
               }}>
               <option aria-label="None" value="" >Selecione</option>
-              {categories?.map(c => (<option value={c._id}>{c.name}</option>))}
+              {categories?.map(c => (<option value={c.name}>{c.name}</option>))}
             </Select ></Grid>}
 
 

@@ -33,6 +33,7 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '100vh',
+        backgroundColor: theme.palette.primary.main,
     },
     image: {
         //backgroundImage: 'url(https://source.unsplash.com/random)',

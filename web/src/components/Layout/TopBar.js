@@ -20,6 +20,8 @@ import useSettings from 'utils/hooks/useSettings';
 import { THEMES } from 'utils/constants';
 import { useContext } from 'react';
 import StoreContext from 'contexts/StoreContext';
+import { useHistory } from 'react-router-dom';
+import PowerSettingsNewSharpIcon from '@material-ui/icons/PowerSettingsNewSharp'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,13 +54,17 @@ const useStyles = makeStyles((theme) => ({
 
 function TopBar({ handleNavOpen, mobileView }) {
   const classes = useStyles();
-  const { token, user } = useContext(StoreContext)
+  const history = useHistory()
+  const { token, user, setUser, removeToken } = useContext(StoreContext)
   const { settings, saveSettings } = useSettings();
   const signIn = () => {
 
   }
-  const signOut = () => {
 
+  const handleLogOutBtn = () => {
+    removeToken('token')
+    setUser({})
+    history.push('/')
   }
   return (
     <AppBar className={classes.root} color="default">
@@ -106,8 +112,15 @@ function TopBar({ handleNavOpen, mobileView }) {
             </Button>
           ) : (
             <Box display="flex" alignItems="center">
+
+              <IconButton className={classes.icons}
+                onClick={() => handleLogOutBtn()}
+              >
+                <PowerSettingsNewSharpIcon />
+              </IconButton>
+
               <Avatar
-                onClick={() => signOut()}
+                onClick={() => signIn()}
                 alt="User"
                 className={classes.avatar}
                 src={user?.image}

@@ -23,7 +23,7 @@ const OperacaoSchema = mongoose.Schema(
             ref: 'User',
             required: false
         },
-        category: { String, required: false },
+        category: { type: String, required: false },
     },
     { timestamps: true }
 );

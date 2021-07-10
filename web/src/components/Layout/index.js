@@ -49,7 +49,7 @@ function Layout({ children, title }) {
   useEffect(() => {
     const setResponsiveness = () => {
 
-      if (window.innerWidth < 1120) {
+      if (window.innerWidth < 1280) {
         setNavOpen(false)
         setState((prevState) => ({ ...prevState, mobileView: true }))
       }

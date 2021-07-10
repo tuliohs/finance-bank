@@ -3,9 +3,9 @@ const OperationModel = require('../models/operacao.model')
 const businessPanding = (reqBody, userId) => {
     switch (reqBody?.type) {
         case 'deposit':
-            return { ...reqBody, class: 'saida', receiver: userId }
+            return { ...reqBody, class: 'saida', receiver: userId, category: 'Deposito' }
         case 'transfer':
-            return { ...reqBody, class: 'saida', sender: userId }
+            return { ...reqBody, class: 'saida', sender: userId, category: 'Transferencia' }
         case 'pay':
             return { ...reqBody, class: 'entrada', sender: userId }
     }
@@ -34,6 +34,10 @@ exports.getAllOperations = async (req, res) => {
         const banco = { name: "banco" }
 
         for (var el of operations) {
+            el['tipo'] = el.receiver?._id?.toString() === req.userId ? "entrada" :
+                el.sender?._id?.toString() !== req.userId ?
+                    "Outros Usuários" : el.class
+            el.transation = el.type === "deposit" ? "Depósito" : el.type === "transfer" ? "Transferência" : "Pagamento"
             if (!el?.receiver)
                 el.receiver = banco
             if (!el?.sender)

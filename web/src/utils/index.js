@@ -18,14 +18,14 @@ function formataValue(target) {
         v = v.replace(".", ",");
         v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
         v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
-        return formatPrice(v);
+        return v.toLocaleString('pt-br', { minimumFractionDigits: 2 });
     }
     return valor
 }
 export function onChangeObject(event, set, state) {
     const { name, id, checked } = event.target;
 
-    const value = event.target.value
+    const value = formataValue(event.target)
 
     //Verifica o tipo de CAMPO
     switch (event.target.type) {
