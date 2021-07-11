@@ -1,46 +1,56 @@
-import React, { useContext, useState } from 'react';
-import { ATMCard } from 'atm-card-react';
-import { Grid } from '@material-ui/core';
 import StoreContext from 'contexts/StoreContext';
-import './card.css'
-function CreditCard() {
-    const { user } = useContext(StoreContext)
-    const [number, setNumber] = useState('5498564678911486');
-    const [month, setMonth] = useState(8);
-    const [year, setYear] = useState(21);
-    const [holder, setHolder] = useState('John Doe');
-    const [cvv, setCvv] = useState('');
+import React, { useContext, useState } from 'react';
+import Cards from 'react-credit-cards';
+import styled from 'styled-components'
 
-    return (<Grid style={{ justifyContent: "center", display: 'flex' }}>
-        {/*<ATMCard
-            number={number}
-            month={month}
-            year={year}
-            holder={holder}
-            cvv={cvv}
-            bgColor="#EA1D2C"
-            hideDigits={true}
-            system="maestro"
-            //bgImage="/logo_size.jpg"
-            lifted={true}
-        />*/}
-        <div class='card'>
-            <img
-                src={
-                    '/favicon.ico'
-                }
-                alt="logo"
-                style={{ height: '30px' }}
+//import 'react-credit-cards/es/styles-compiled.css';
+import './card.css';
+
+
+const Styles = styled.div`  
+
+.rccs__card--maestro > div, .rccs__card--mastercard > div {
+    color: #ffffff  !important;
+} 
+.rccs__card__background{
+    background:    linear-gradient(
+        25deg
+        , #DC0A28,#EA1D2C) !important;
+}  
+`
+
+export default function CreditCard() {
+    const { user } = useContext(StoreContext)
+    const [dados, setDados] = useState({
+        cvc: '',
+        expiry: '08/21',
+        focus: '',
+        name: user?.name,
+        number: '5498 **** **** 1486',
+    })
+
+    //handleInputFocus = (e) => {
+    //    this.setState({ focus: e.target.name });
+    //}
+
+    //handleInputChange = (e) => {
+    //    const { name, value } = e.target;
+
+    //    this.setState({ [name]: value });
+    //}
+
+    return (
+        <Styles>
+            <Cards
+                cvc={dados.cvc}
+                expiry={dados.expiry}
+                focused={dados.focus}
+                name={dados.name}
+                number={dados.number}
+                style={{ backGroundColor: "#000000" }}
+                issuer="visa"
+                preview={true}
             />
-            <div class='card-content'>
-                <h6>{user.name}</h6>
-                <h6 id='label-cardnumber'>5498 5646 7891 1486</h6>
-                <h5>Expiration<span>CVC</span></h5>
-                <h6 id='label-cardexpiration'>08 / 21<span>{"        " + 179}</span></h6>
-            </div>
-            <div class='wave'></div>
-        </div>
-    </Grid>
+        </Styles>
     )
 }
-export default CreditCard;

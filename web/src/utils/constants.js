@@ -14,6 +14,8 @@ let baseUrl = "http://localhost:9098/api"
 
 export const URL = {
   BASE: baseUrl,
+  //WEB: "http://localhost:3000",
+  WEB: "http://45.90.108.173:3000",
   //user  
   REGISTER: `${baseUrl}/v1/auth/register`,
   LOGIN: `${baseUrl}/v1/auth/authenticate`,
