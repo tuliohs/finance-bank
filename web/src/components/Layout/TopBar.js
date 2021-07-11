@@ -22,6 +22,7 @@ import { useContext } from 'react';
 import StoreContext from 'contexts/StoreContext';
 import { useHistory } from 'react-router-dom';
 import PowerSettingsNewSharpIcon from '@material-ui/icons/PowerSettingsNewSharp'
+import Img from 'components/Img';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,13 +119,9 @@ function TopBar({ handleNavOpen, mobileView }) {
               >
                 <PowerSettingsNewSharpIcon />
               </IconButton>
-
-              <Avatar
-                onClick={() => signIn()}
-                alt="User"
-                className={classes.avatar}
-                src={user?.image}
-              />
+              <Img src={user?.image} isAvatar={true}
+                className={classes.icons}
+                alt={user?.name} isExternal={true} />
             </Box>
           )}
         </Box>

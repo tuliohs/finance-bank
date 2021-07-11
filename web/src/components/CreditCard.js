@@ -4,7 +4,7 @@ import Cards from 'react-credit-cards';
 import styled from 'styled-components'
 
 //import 'react-credit-cards/es/styles-compiled.css';
-import './card.css';
+import './react-credit-cards.css';
 
 
 const Styles = styled.div`  

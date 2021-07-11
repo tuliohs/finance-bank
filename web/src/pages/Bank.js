@@ -28,7 +28,7 @@ export default function Bank() {
     return (
         <Layout>
             <Typography variant="h5" component="h2" color="textSecondary">
-                Transações
+                Transações de todos os usuários
             </Typography>
             <Grid container justifyContent="flex-end" style={{ display: 'flex', padding: 30 }}>
                 <Grid item>

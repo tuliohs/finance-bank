@@ -16,6 +16,7 @@ import { onChangeObject } from 'utils';
 import StoreContext from 'contexts/StoreContext';
 import { useHistory } from 'react-router-dom';
 import { sigIn } from 'api/user.api';
+import firebase from 'utils/firebase'
 
 function Copyright() {
     return (
@@ -85,6 +86,19 @@ export default function SignIn() {
             })
     }
 
+    const signinGoogle = async (e) => {
+        e.preventDefault()
+        try {
+            console.info(true);
+            const response = await firebase
+                .auth()
+                .signInWithPopup(new firebase.auth.GoogleAuthProvider());
+            console.log(response.user, 'response.userresponse.user')
+        } finally {
+            console.info(false);
+        }
+    }
+
     return (
         <Grid container component="main" className={classes.root}>
             <CssBaseline />
@@ -137,6 +151,16 @@ export default function SignIn() {
                             onClick={handleLogin}
                         >
                             Sign In
+                        </Button>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={signinGoogle}
+                        >
+                            Login Google
                         </Button>
                         {/*<Grid container>
                             <Grid item xs>

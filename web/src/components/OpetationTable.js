@@ -467,7 +467,7 @@ function OpetationTable({ dados }) {
             {
                 Header: 'Valor',
                 accessor: 'valor',
-                Cell: ({ value }) => (formatPrice(value)),
+                Cell: ({ value }) => (formatPrice(parseFloat(value))),
                 Filter: NumberRangeColumnFilter,
                 filter: 'between',
             },

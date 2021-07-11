@@ -43,7 +43,10 @@ export default function OperationDialog({ setOpen, open, type }) {
     else if (type === 'pay' && !dados?.category)
       return setMessage({ type: "error", visible: true, text: 'A categoria é obrigatória para pagamentos' })
 
-    const body = { ...dados, type: type, category: dados?.category }
+    const body = {
+      ...dados, type: type, category: dados?.category,
+      valor: dados.valor.replace('.', '') //salvando valores sem pontos
+    }
     await newOperation(body)
       .then(c => {
         handleClose()
@@ -137,8 +140,6 @@ export default function OperationDialog({ setOpen, open, type }) {
               <option aria-label="None" value="" >Selecione</option>
               {categories?.map(c => (<option value={c.name}>{c.name}</option>))}
             </Select ></Grid>}
-
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

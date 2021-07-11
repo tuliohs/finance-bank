@@ -30,7 +30,7 @@ export default function Home() {
     }
     useEffect(() => {
         obterOperacoes()
-    }, [])
+    }, [open])
 
 
     var total = dados?.reduce(function (tot, el) {
