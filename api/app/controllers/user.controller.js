@@ -97,3 +97,38 @@ exports.changeProfile = async (req, res) => {
         }
     }
 }
+
+exports.loginGoogle = async (req, res) => {
+    const { email, name, photo, provider, token, uid } = req.body
+
+    try {
+        if (!email)
+            return res.status(400).send({ message: 'Erro durante a comunicação com o google.' })
+
+        let user = await User.findOne({ email: email })
+
+        if (!user) {
+            user = await User.create({
+                name: name,
+                email: email,
+                authType: 'google',
+                photo: photo,
+            })
+        }
+
+        if (!user.active)
+            return res.status(400).send({ message: 'User Disable, Click on forgot password to retrieve the user.' })
+
+        await UpdLastAcess(user?._id)
+
+        user.password = undefined;
+
+        res.send({
+            user,
+            token: generateToken({ id: user._id }),
+        })
+    }
+    catch (err) {
+        return res.status(400).send({ message: 'login error', err: depure ? err.message : null })
+    }
+}

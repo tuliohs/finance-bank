@@ -19,6 +19,7 @@ export const URL = {
   //user  
   REGISTER: `${baseUrl}/v1/auth/register`,
   LOGIN: `${baseUrl}/v1/auth/authenticate`,
+  LOGIN_GOOGLE: `${baseUrl}/v1/auth/authenticate-google`,
   USER: `${baseUrl}/v1/auth/user`,
 
   OPERATION: `${baseUrl}/v1/operation`,

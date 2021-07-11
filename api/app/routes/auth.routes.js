@@ -6,6 +6,7 @@ const authorize = require('../middlewares/auth').verifyJwt
 //NOT authorize routes
 router.post("/register", auth.registro);
 router.post("/authenticate", auth.autenticar);
+router.post("/authenticate-google", auth.loginGoogle);
 
 //authorize
 router.put("/user", authorize, auth.changeProfile);

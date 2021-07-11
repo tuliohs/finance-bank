@@ -119,7 +119,7 @@ function TopBar({ handleNavOpen, mobileView }) {
               >
                 <PowerSettingsNewSharpIcon />
               </IconButton>
-              <Img src={user?.image} isAvatar={true}
+              <Img src={user?.photo} isAvatar={true}
                 className={classes.icons}
                 alt={user?.name} isExternal={true} />
             </Box>

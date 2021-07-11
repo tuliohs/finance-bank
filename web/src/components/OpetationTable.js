@@ -446,7 +446,7 @@ function OpetationTable({ dados }) {
                 filter: 'includes',
                 Cell: ({ row, value }) => (
                     <Grid justifyContent="center" style={{ display: 'flex' }}>
-                        <Img src={row.original.sender?.photo} isAvatar={true}
+                        <Img src={row.original.receiver?.photo} isAvatar={true}
                             alt={value} isExternal={true} />
                     </Grid>
                 )
@@ -479,14 +479,20 @@ function OpetationTable({ dados }) {
                 Cell: ({ row, value }) => (
                     row.original.sender._id !== user?._id ?
                         null ://somente são alteradas transações do mesmo usuário
-                        <Grid>
+                        <Grid style={{
+                            justifyContent: "space-around",
+                            display: 'flex',
+                            flexDirection: 'row'
+                        }}>
                             <Button
                                 variant="outlined"
+                                size="small"
                                 color="secondary"
                                 onClick={editRow({ value })}>Editar</Button>
                             <Button
                                 variant="outlined"
                                 color="primary"
+                                size="small"
                                 onClick={editRow({ value })}>Reverter</Button>
                         </Grid>
                 )

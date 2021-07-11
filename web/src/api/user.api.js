@@ -8,6 +8,9 @@ export const register = async (values) => {
 export const sigIn = async (values) => {
     return await api.post(URL.LOGIN, values)
 }
+export const loginGoogle = async (values) => {
+    return await api.post(URL.LOGIN_GOOGLE, values)
+}
 export const getUser = async () => {
     return await api.get(URL.USER)
 }

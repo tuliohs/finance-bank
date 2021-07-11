@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { onChangeObject } from 'utils';
 import StoreContext from 'contexts/StoreContext';
 import { useHistory } from 'react-router-dom';
-import { sigIn } from 'api/user.api';
+import { loginGoogle, sigIn } from 'api/user.api';
 import firebase from 'utils/firebase'
 
 function Copyright() {
@@ -85,18 +85,35 @@ export default function SignIn() {
                 setMessage({ visible: true, text: e.toString(), type: 'error' })
             })
     }
-
+    const handlerUser = async (user) => {
+        const body = {
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName,
+            token: user.za,
+            provider: user.providerData[0].providerId,
+            photo: user.photoURL,
+        }
+        await loginGoogle(body)
+            .then(c => {
+                setToken(c.data.token)
+                setUser(c.data.user)
+                history.push('/home')
+            })
+            .catch(e => {
+                setMessage({ visible: true, text: e.toString(), type: 'error' })
+            })
+    }
     const signinGoogle = async (e) => {
         e.preventDefault()
-        try {
-            console.info(true);
-            const response = await firebase
-                .auth()
-                .signInWithPopup(new firebase.auth.GoogleAuthProvider());
-            console.log(response.user, 'response.userresponse.user')
-        } finally {
-            console.info(false);
-        }
+        await firebase
+            .auth()
+            .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+            .then(c => handlerUser(c.user))
+            .catch(err => {
+                console.log(err)
+                setMessage({ visible: true, type: 'error', text: "Erro durante o login" })
+            })
     }
 
     return (
@@ -156,11 +173,22 @@ export default function SignIn() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            color="primary"
+                            color="#1a73e8"
                             className={classes.submit}
                             onClick={signinGoogle}
+                            style={{
+                                backgroundColor: "#1a73e8",
+                            }}
                         >
-                            Login Google
+                            <Grid style={{
+                                display: 'flex',
+                                justifyContent: 'space-around',
+                                flexDirection: "row",
+                                color: '#ffffff',
+                            }}>
+                                <img src="https://img.icons8.com/fluent/24/fa314a/google-logo.png" />
+                                <div>{" Entrar com Google"}</div>
+                            </Grid>
                         </Button>
                         {/*<Grid container>
                             <Grid item xs>

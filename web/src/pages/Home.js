@@ -39,6 +39,7 @@ export default function Home() {
             return tot + Number(numero)
         else if (el?.sender?._id === user._id)
             return tot - Number(numero)
+        else return tot + 0
     }, 0);
 
 
@@ -48,7 +49,7 @@ export default function Home() {
                 {" Welcome " + user?.name || ""}
             </Typography>
             <Typography variant="h4" component="h4" color="textSecondary">
-                Saldo {formatPrice(total)}
+                Saldo {formatPrice(parseFloat(total))}
             </Typography>
             <Typography component="h5" color="textSecondary">
                 Selecione uma das operações abaixo
