@@ -29,5 +29,11 @@ app.use(express.json())
 app.use('/api/v1/auth', require('./app/routes/auth.routes'))
 app.use('/api/v1/operation', require('./app/routes/operation.routes'))
 
+const router = require('express').Router()
+const OperationModel = require('./app/models/operacao.model')
+const authorize = require('./app/middlewares/auth').verifyJwt;
+const crud = require('./app/lib/crud');
+
+app.use(router.use('/api/v2/operation', authorize, crud(OperationModel)))
 
 app.listen(9098, () => console.log('Server started.'))

@@ -26,7 +26,6 @@ export const StoreProvider = ({ children }) => {
   const [token, setToken, removeToken] = useStorage('token')
   const [user, setUser] = useState({})
 
-  console.log(user)
   const [message, setMessage] = useState({});
 
   //-------------Theme----------------------------

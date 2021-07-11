@@ -9,6 +9,7 @@ import StoreContext from 'contexts/StoreContext';
 import OperationDialog from 'components/OperationDialog';
 import { getOperations } from 'api/opration.api';
 import { formatPrice } from 'utils';
+import styled from 'styled-components'
 
 export default function Home() {
     const { user, setMessage } = useContext(StoreContext)
@@ -46,11 +47,12 @@ export default function Home() {
     return (
         <Layout>
             <Typography variant="h5" component="h2" color="textSecondary">
-                {" Welcome " + user?.name || ""}
+                {" Olá, " + user?.name || ""}
             </Typography>
-            <Typography variant="h4" component="h4" color="textSecondary">
-                Saldo {formatPrice(parseFloat(total))}
-            </Typography>
+            <Grid style={{ display: 'flex', marginBlock: 22 }}>
+                <Styles>
+                    Saldo {formatPrice(parseFloat(total))}
+                </Styles></Grid>
             <Typography component="h5" color="textSecondary">
                 Selecione uma das operações abaixo
             </Typography>
@@ -70,3 +72,12 @@ export default function Home() {
         </Layout>
     )
 }
+
+const Styles = styled.div`  
+display:flex;
+border-radius: 25px;
+padding: 12px; 
+  color: #ffffff; font-family: 'Helvetica Neue', sans-serif;
+   font-size: 22px; font-weight: bold; letter-spacing: -1px; line-height: 1;  
+  background-color:#EA1D2C;
+`

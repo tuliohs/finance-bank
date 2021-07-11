@@ -15,7 +15,8 @@ export default function CardVirtual() {
                 marginTop: 20,
                 display: 'flex',
                 direction: 'row',
-                justifyContent: "space-around"
+                justifyContent: "space-around",
+                flexWrap: 'wrap'
             }}>
                 <CreditCard />
                 <QRCode

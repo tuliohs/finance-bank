@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { formatPrice, onChangeObject } from 'utils';
 import StoreContext from 'contexts/StoreContext';
-import { newOperation } from 'api/opration.api';
+import { editOperations, newOperation } from 'api/opration.api';
 import { getUser } from 'api/user.api';
 import { Grid, InputLabel, Select } from '@material-ui/core';
 const catetoriesSimulation = [
@@ -19,7 +19,7 @@ const catetoriesSimulation = [
 ]
 
 
-export default function OperationDialog({ setOpen, open, type }) {
+export default function OperationDialog({ setOpen, open, type, defaultData }) {
   const [dados, setDados] = useState({})
   const [formDados, setFormDados] = useState({ title: '' })
   const [users, setUsers] = useState([])
@@ -47,12 +47,22 @@ export default function OperationDialog({ setOpen, open, type }) {
       ...dados, type: type, category: dados?.category,
       valor: dados.valor.replace('.', '') //salvando valores sem pontos
     }
-    await newOperation(body)
-      .then(c => {
-        handleClose()
-        setMessage({ type: 'success', text: c.data.message, visible: true })
-      })
-      .catch(c => setMessage({ type: "error", visible: true, text: 'error' }))
+    if (!dados?._id) { //caso não tenha o id significa que uma nova linha
+      await newOperation(body)
+        .then(c => {
+          handleClose()
+          setMessage({ type: 'success', text: c.data.message, visible: true })
+        })
+        .catch(c => setMessage({ type: "error", visible: true, text: 'error' }))
+    } else {
+      await editOperations(dados?._id, body)
+        .then(c => {
+          handleClose()
+          setMessage({ type: 'success', text: "Transação Modificada", visible: true })
+        })
+        .catch(c => setMessage({ type: "error", visible: true, text: 'error' }))
+    }
+
   }
   const changeFormType = () => {
     if (type === 'deposit')
@@ -62,20 +72,26 @@ export default function OperationDialog({ setOpen, open, type }) {
     else setFormDados({ ...formDados, title: 'Pagamento' })
   }
 
-  useEffect(() => {
-    getInialData()
-    changeFormType()
-  }, [type])
-
   const getInialData = async () => {
+
     //obtendo usuario e categorias que podem ser usadas em transações
     //if (formDados.categories?.length === 0 || formDados.users?.length === 0)
     await getUser()
       .then(c => setUsers(c.data.users))
       .catch(e => console.log('error'))
     setCategories(catetoriesSimulation)
-
   }
+
+  useEffect(() => {
+    getInialData()
+    changeFormType()
+  }, [type])
+
+
+  useEffect(() => {
+    if (defaultData)
+      setDados(defaultData)
+  }, [defaultData])
 
   return (
     <div>
@@ -104,7 +120,7 @@ export default function OperationDialog({ setOpen, open, type }) {
               native
               key={'receiver'}
               labelId={'receiver'}
-              //value={dados.age}
+              value={dados.receiver}
               onChange={onChange}
               fullWidth
               inputProps={{
@@ -130,7 +146,7 @@ export default function OperationDialog({ setOpen, open, type }) {
               native
               key={'category'}
               labelId={'category'}
-              //value={dados.age}
+              value={dados.category}
               onChange={onChange}
               fullWidth
               inputProps={{

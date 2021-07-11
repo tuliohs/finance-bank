@@ -11,8 +11,7 @@ const UserSchema = mongoose.Schema(
             enum: ['default', 'google'],
             default: 'default',
             require: false
-        }, //'facebook' |'' |
-        profileImage: { type: mongoose.Types.ObjectId, ref: 'Media' },
+        }, //'facebook' |'' | 
         lastAcess: { type: Date, default: Date.now },
         photo: { type: String, require: false },
         //update user example

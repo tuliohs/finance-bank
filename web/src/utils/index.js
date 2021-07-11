@@ -12,7 +12,6 @@ export const formatPrice = (value) => {
 function formataValue(target) {
     var valor = target?.value;
     if (target.name === 'valor') {
-        console.log('fdf')
         var v = target.value.replace(/\D/g, '');
         v = (v / 100).toFixed(2) + '';
         v = v.replace(".", ",");

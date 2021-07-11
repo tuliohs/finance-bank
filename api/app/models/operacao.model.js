@@ -23,6 +23,11 @@ const OperacaoSchema = mongoose.Schema(
             ref: 'User',
             required: false
         },
+        creator: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: false
+        },
         category: { type: String, required: false },
     },
     { timestamps: true }

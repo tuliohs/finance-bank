@@ -13,10 +13,10 @@ import Img from 'components/Img'
 //import makeData from './makeData'
 
 const Styles = styled.div`
-  padding: 1rem;  
-  input[placeholder], [placeholder], *[placeholder] {
-    color: red !important;
-} 
+  padding: 1rem;   
+input[type="text"].MuiInputBase-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: white  !important;
+  }
   table {
     border-spacing: 0;
     thead{  
@@ -94,7 +94,7 @@ function GlobalFilter({
                             style={{
                                 fontSize: '1.1rem',
                                 border: '0',
-
+                                color: '#ffffff',
                                 flex: 1,
                             }}
                             type="text"
@@ -239,7 +239,7 @@ function NumberRangeColumnFilter({
                 display: 'flex',
             }}
         >
-            <input
+            {/*<input
                 value={filterValue[0] || ''}
                 type="number"
                 onChange={e => {
@@ -265,7 +265,7 @@ function NumberRangeColumnFilter({
                     width: '70px',
                     marginLeft: '0.5rem',
                 }}
-            />
+            />*/}
         </div>
     )
 }
@@ -331,7 +331,7 @@ function Table({ columns, data }) {
 
     // We don't want to render all of the rows for this example, so cap
     // it for this use case
-    const firstPageRows = rows.slice(0, 10)
+    const firstPageRows = rows.slice(0, 1000)
 
     return (
         <>
@@ -356,7 +356,6 @@ function Table({ columns, data }) {
                             {headerGroup.headers.map(column => (
                                 <th {...column.getHeaderProps()}>
                                     {column.render('Header')}
-                                    {console.log(column)}
                                     {/* Render the columns filter UI */}
                                     <div>{column.canFilter &&
                                         ["Opções", "Data"].indexOf(column.Header) === -1
@@ -381,7 +380,7 @@ function Table({ columns, data }) {
                 </tbody>
             </table>
             <br />
-            <div>Showing the first 20 results of {rows.length} rows</div>
+            {/*<div>Showing the first 20 results of {rows.length} rows</div>*/}
         </>
     )
 }
@@ -400,7 +399,7 @@ function filterGreaterThan(rows, id, filterValue) {
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = val => typeof val !== 'number'
 
-function OpetationTable({ dados }) {
+function OpetationTable({ dados, handleDelete, handleEdit }) {
     const { user } = useContext(StoreContext)
     const editRow = () => { }
 
@@ -424,9 +423,9 @@ function OpetationTable({ dados }) {
                 filter: 'includes',
                 Cell: ({ row, value }) => (
                     <Grid justifyContent="center" style={{ display: 'flex' }}>{
-                        row.original.sender._id !== user?._id ?
+                        row.original.creator?._id !== user?._id ?
                             <img src="https://img.icons8.com/material-sharp/24/000000/resize-horizontal.png" />
-                            : value === "saida" ?
+                            : value !== "entrada" ?
                                 <img src="https://img.icons8.com/ios-filled/24/fa314a/sort-down.png" />
                                 :
                                 <img src="https://img.icons8.com/ios-filled/24/26e07f/sort-up.png" />
@@ -467,7 +466,7 @@ function OpetationTable({ dados }) {
             {
                 Header: 'Valor',
                 accessor: 'valor',
-                Cell: ({ value }) => (formatPrice(parseFloat(value))),
+                Cell: ({ value }) => <div style={{ whiteSpace: 'nowrap', textAlign: 'right' }}> {'R$ ' + value}</div>,
                 Filter: NumberRangeColumnFilter,
                 filter: 'between',
             },
@@ -477,7 +476,7 @@ function OpetationTable({ dados }) {
                 disableFilter: false,
                 accessor: '_id',
                 Cell: ({ row, value }) => (
-                    row.original.sender._id !== user?._id ?
+                    row.original.creator?._id !== user?._id ?
                         null ://somente são alteradas transações do mesmo usuário
                         <Grid style={{
                             justifyContent: "space-around",
@@ -485,15 +484,16 @@ function OpetationTable({ dados }) {
                             flexDirection: 'row'
                         }}>
                             <Button
-                                variant="outlined"
                                 size="small"
                                 color="secondary"
-                                onClick={editRow({ value })}>Editar</Button>
+                                onClick={() => handleEdit(row.original)}>
+                                <img src="https://img.icons8.com/material-sharp/24/fa314a/edit--v1.png" />
+                            </Button>
                             <Button
                                 variant="outlined"
                                 color="primary"
                                 size="small"
-                                onClick={editRow({ value })}>Reverter</Button>
+                                onClick={() => handleDelete(row.original._id)}>Reverter</Button>
                         </Grid>
                 )
             },

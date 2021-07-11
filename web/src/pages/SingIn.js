@@ -71,13 +71,11 @@ export default function SignIn() {
     const onChange = (e) => onChangeObject(e, setDados, dados)
 
     const handleLogin = async (e) => {
-        console.log('login setUser', dados)
         e.preventDefault()
         await sigIn({ email: dados.email, password: dados.password })
             .then(c => {
                 setToken(c.data.token)
                 //setUser(c.data.user)
-                console.log('login setUser', c.data.user)
                 setUser(c.data.user)
                 history.push('/home')
             })
@@ -111,7 +109,6 @@ export default function SignIn() {
             .signInWithPopup(new firebase.auth.GoogleAuthProvider())
             .then(c => handlerUser(c.user))
             .catch(err => {
-                console.log(err)
                 setMessage({ visible: true, type: 'error', text: "Erro durante o login" })
             })
     }

@@ -5,7 +5,6 @@ import { defaultTheme } from 'utils/constants';
 
 function SThemeProvider({ children }) {
   const { settings } = useSettings();
-  console.log(settings, 'settingssettings');
   const theme = createTheme({ theme: settings?.theme || defaultTheme });
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
