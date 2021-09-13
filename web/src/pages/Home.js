@@ -47,7 +47,7 @@ export default function Home() {
     return (
         <Layout>
             <Typography variant="h5" component="h2" color="textSecondary">
-                {" Olá, " + user?.name || ""}
+                {"  Bem Vindo"}
             </Typography>
             <Grid style={{ display: 'flex', marginBlock: 22 }}>
                 <Styles>
