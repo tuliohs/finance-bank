@@ -56,11 +56,11 @@ exports.init = async () => {
     let rawUsers = fs.readFileSync(basePath.json + 'user.json')
     await createLote(UserModel, 'User', JSON.parse(rawUsers), ["email"], "replace")
 
-    //---------Criando um usuario chamado sense--------------
+    //---------Criando um usuario chamado finance-bank--------------
     //-------------------------------------------------------
     const queryUser = {
-        name: "sense",
-        email: "sense@gmail.com",
+        name: "finance-bank",
+        email: "finance-bank@gmail.com",
         password: '12345',
     }
 

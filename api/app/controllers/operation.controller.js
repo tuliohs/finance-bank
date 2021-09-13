@@ -34,7 +34,7 @@ exports.getAllOperations = async (req, res) => {
             .lean()
 
         //---------adicionado o nome banco as operações sem destinatario um remetente
-        const banco = { name: "SenseBanco" }
+        const banco = { name: "BancoF" }
 
         for (var el of operations) {
             el['tipo'] = el.receiver?._id?.toString() === req.userId ? "entrada" : el.sender?._id?.toString() !== req.userId ? "Outros Usuários" : "saída"

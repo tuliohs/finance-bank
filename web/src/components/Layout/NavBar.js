@@ -47,8 +47,8 @@ const useStyles = makeStyles((theme) => ({
 
 const primaryMenu = [
   { id: 1, label: 'Início', path: '/home', icon: HomeIcon },
-  { id: 2, label: 'SenseBank', path: '/bank', icon: AttachMoneyIcon },
-  { id: 3, label: 'SenseCard', path: '/card', icon: CreditCard },
+  { id: 2, label: 'Bank', path: '/bank', icon: AttachMoneyIcon },
+  { id: 3, label: 'Card', path: '/card', icon: CreditCard },
 ];
 
 const secondaryManu = [

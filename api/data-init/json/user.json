@@ -1,26 +1,26 @@
 [
     {
         "order": 1,
-        "name": "sense1",
-        "email": "sense1",
-        "password": "sense1"
+        "name": "finance-bank1",
+        "email": "finance-bank1",
+        "password": "finance-bank1"
     },
     {
         "order": 2,
-        "name": "sense2",
-        "email": "sense2",
-        "password": "sense2"
+        "name": "finance-bank2",
+        "email": "finance-bank2",
+        "password": "finance-bank2"
     },
     {
         "order": 3,
-        "name": "sense3",
-        "email": "sense3",
-        "password": "sense3"
+        "name": "finance-bank3",
+        "email": "finance-bank3",
+        "password": "finance-bank3"
     },
     {
         "order": 4,
-        "name": "sense4",
-        "email": "sense4",
-        "password": "sense4"
+        "name": "finance-bank4",
+        "email": "finance-bank4",
+        "password": "finance-bank4"
     }
 ]
